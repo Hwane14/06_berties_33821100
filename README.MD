@@ -4,7 +4,7 @@
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **Node.js** with **Express.js** — server-side framework
 - **EJS** — templating engine for dynamic HTML
@@ -13,7 +13,7 @@
 
 ---
 
-## 🚦 Available Routes
+## Available Routes
 
 | Route                   | Description                            |
 |------------------------|----------------------------------------|
@@ -27,7 +27,7 @@
 
 ---
 
-## 🔍 Advanced Search Feature
+## Advanced Search Feature
 
 The `/search` route supports **partial matching** using SQL `LIKE` queries. For example, searching for `"World"` will return:
 
@@ -39,13 +39,13 @@ This allows users to find books even if they only remember part of the title.
 
 ---
 
-## 🧪 How to Install and Run Locally
+## How to Install and Run Locally
 
 ### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Hwane14/06_berties_33821100
-cd berties-books
+cd 06_berties_33821100
 ```
 
 ### 2. Install Dependencies
@@ -58,12 +58,6 @@ Open MySQL and run:
 ```Sql
 SOURCE create_db.sql;
 SOURCE insert_test_data.sql;
-```
-
-Create the app user:
-```Sql
-CREATE USER IF NOT EXISTS 'berties_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop';
-GRANT ALL PRIVILEGES ON mybookshop.* TO 'berties_books_app'@'localhost';
 ```
 
 ### 4. Start the Server
