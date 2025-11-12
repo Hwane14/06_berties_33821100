@@ -11,10 +11,11 @@ module.exports = function(app, shopData) {
         res.render("search.ejs", shopData);
     });
     app.get('/search-result', function (req, res, next) {
-        let searchQuery = "SELECT * FROM books WHERE name=?"
+        let searchQuery = "SELECT * FROM books WHERE LOWER(name) LIKE LOWER(?)"
+        let keyword = `%${req.query.keyword}%`// wrap keyword with wildcards
 
         //searching in the database
-        db.query(searchQuery, [req.query.keyword], (err, result) => {
+        db.query(searchQuery, [keyword], (err, result) => {
             if (err) {
                 next(err)
             }
