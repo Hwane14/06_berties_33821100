@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS books (id INT AUTO_INCREMENT,name VARCHAR(50),price D
 
 # Create the application user
 CREATE USER IF NOT EXISTS 'berties_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop';
-GRANT ALL PRIVILEGES ON berties_books.* TO 'berties_books_app'@'localhost';
+GRANT ALL PRIVILEGES ON myBookshop.* TO 'berties_books_app'@'localhost';
