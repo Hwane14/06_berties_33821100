@@ -10,9 +10,20 @@ module.exports = function(app, shopData) {
     app.get('/search',function(req,res){
         res.render("search.ejs", shopData);
     });
-    app.get('/search-result', function (req, res) {
+    app.get('/search-result', function (req, res, next) {
+        let searchQuery = "SELECT * FROM books WHERE name=?"
+
         //searching in the database
-        res.send("You searched for: " + req.query.keyword);
+        db.query(searchQuery, [req.query.keyword], (err, result) => {
+            if (err) {
+                next(err)
+            }
+            res.render('searchresults.ejs', {
+                books: result,
+                shopData: shopData,
+                keyword: req.query.keyword
+            });
+        });
     });
     app.get('/register', function (req,res) {
         res.render('register.ejs', shopData);                                                                     
