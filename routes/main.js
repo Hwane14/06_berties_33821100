@@ -34,7 +34,7 @@ module.exports = function(app, shopData) {
         res.send(' Hello '+ req.body.first + ' '+ req.body.last +' you are now registered!  We will send an email to you at ' + req.body.email);                                                                              
     });
     // Route to render list.ejs
-    app.get('/list', function(req, res, next) {
+    app.get('/books/list', function(req, res, next) {
         let sqlquery = "SELECT * FROM books"; // query database to get all the books
 
         // Execute SQL query
