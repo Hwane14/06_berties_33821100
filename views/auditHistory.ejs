@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= shopData.shopName %>: Audit History</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <h1><%= shopData.shopName %>: Audit History</h1>
+
+    <% if (attempts.length === 0) { %>
+      <p>No login attempts have been recorded yet.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% attempts.forEach(function(attempt) { %>
+            <tr>
+              <td><%= attempt.username %></td>
+              <td><%= attempt.attemptTime.toLocaleString() %></td>
+              <td class="<%= attempt.success ? 'success' : 'failure' %>">
+                <%= attempt.success ? 'Success' : 'Failed' %>
+              </td>
+              <td><%= attempt.reason %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } %>
+    <p><a href="/">Return to home</a></p>
+  </body>
+</html>

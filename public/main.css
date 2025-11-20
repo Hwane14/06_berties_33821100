@@ -41,3 +41,31 @@ a:link {
     text-decoration: none;
     padding:5px;
   }
+
+  /* New styles for login history table */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.failure {
+    color: red;
+    font-weight: bold;
+}

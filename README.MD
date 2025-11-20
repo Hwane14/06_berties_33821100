@@ -23,7 +23,10 @@
 | `/register`            | User registration page                 |
 | `/books/addbook`       | Form to add a new book                 |
 | `/list`                | Displays all books in the database     |
-| `/books/bargainbooks`  | Lists books priced below a set amount |
+| `/books/bargainbooks`  | Lists books priced below a set amount  |
+| `/users/list`          | Lists users who have registered        |
+| `/users/login`         | Login page                             |
+| `/users/audit`         | Displays full audit history            |
 
 ---
 
@@ -38,6 +41,34 @@ The `/search` route supports **partial matching** using SQL `LIKE` queries. For 
 This allows users to find books even if they only remember part of the title.
 
 ---
+
+### dotenv
+
+Sensitive credentials like database access are managed using the `dotenv` module:
+
+- Installed with `npm install dotenv`
+- Created a `.env` file containing:
+```env
+  BB_USER='berties_books_app'
+  BB_PASSWORD='qwertyuiop'
+  BB_DATABASE='berties_books'
+```
+- Loaded in `index.js` using `require('dotenv').config()`
+- Database pool uses `process.env` variables
+- `.env` is listed in `.gitignore` to keep it private
+
+---
+
+### 🔍 Audit
+
+Login attempts are recorded in a `loginAttempts` table to support auditing and security monitoring. Each attempt logs:
+
+- `username`
+- `timestamp` (auto-generated)
+- `success` (true/false)
+- `reason` (e.g. "Invalid password")
+
+This is implemented in the `/users/loggedin` route, where each login attempt—successful or failed—is inserted into the database. A `/users/audit` route displays these attempts in a table view.
 
 ## How to Install and Run Locally
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bargain Book List</title>
+    <title>Book List</title>
     <link rel="stylesheet" type="text/css" href="/main.css">
 </head>
 <body>
@@ -11,14 +11,18 @@
     </header>
 
     <main>
-        <h2>Here are the books that we sell below £20:</h2>
+        <h2>Here are our current users:</h2>
+        <% if(users.length > 0) { %>
         <ul>
-            <% bargainBooks.forEach(function(book) { %>
-                <li class="book-item">
-                    <strong><%= book.name %></strong>, £<%= Number(book.price).toFixed(2) %>
+            <% users.forEach(function(user) { %>
+                <li class="user">
+                    <strong>Name:</strong> <%= user.first_name %> <%= user.last_name %>
                 </li>
             <% }); %>
         </ul>
+        <% } else { %>
+        <p>We currently have no users.</p>
+    <% } %>
     </main>
     <p><a href="/">Return to home</a></p>
 </body>

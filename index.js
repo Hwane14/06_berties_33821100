@@ -3,6 +3,7 @@ var express = require ('express');
 var ejs = require('ejs');
 var bodyParser= require ('body-parser');
 var mysql = require('mysql2');
+require('dotenv').config();
 
 // Create the express application object
 const app = express()
@@ -29,9 +30,9 @@ var shopData = {shopName: "Bertie's Books"}
 // Define the database connection pool
 const db = mysql.createPool({
     host: 'localhost',
-    user: 'berties_books_app',
-    password: 'qwertyuiop',
-    database: 'myBookshop',
+    user: process.env.BB_USER,
+    password: process.env.BB_PASSWORD,
+    database: process.env.BB_DATABASE,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
