@@ -18,7 +18,7 @@ module.exports = function(app, shopData) {
         //searching in the database
         db.query(searchQuery, [keyword], (err, result) => {
             if (err) {
-                next(err)
+                return next(err);
             }
             res.render('searchresults.ejs', {
                 books: result,
@@ -41,7 +41,7 @@ module.exports = function(app, shopData) {
             // Execute SQL query
             db.query(sqlquery, newrecord, (err, result) => {
                 if (err) {
-                    next(err)
+                    return next(err);
                 }
                 else {
                     const message = `
@@ -64,7 +64,7 @@ module.exports = function(app, shopData) {
         // Execute SQL query
         db.query(sqlquery, (err, result) => {
             if (err) {
-                next(err)
+                return next(err);
             }
             res.render('list.ejs', {
                 availableBooks:result,
@@ -87,7 +87,7 @@ module.exports = function(app, shopData) {
         // Send data to database if no error
         db.query(sqlquery, newrecord, (err, result) => {
             if (err) {
-                next(err)
+                return next(err);
             }
             else {
                 res.send(`
@@ -107,7 +107,7 @@ module.exports = function(app, shopData) {
         // Execute SQL query
         db.query(sqlquery, (err, result) => {
             if (err) {
-                next(err)
+                return next(err);
             }
             res.render('bargainlist.ejs', {
                 bargainBooks:result,
@@ -122,7 +122,7 @@ module.exports = function(app, shopData) {
         // Execute SQL query
         db.query(sqlquery, (err, result) => {
             if (err) {
-                next(err);
+                return next(err);
             }
             else {
                 res.render('userList.ejs', {
