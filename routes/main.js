@@ -190,7 +190,7 @@ module.exports = function(app, shopData) {
         });
     });
     // Route to display login attempts
-    app.get('/users/audit', function(req, res) {
+    app.get('/users/audit', function(req, res, next) {
         let sqlquery = "SELECT * FROM loginAttempts ORDER BY attemptTime DESC";
 
         //Execute SQL query
