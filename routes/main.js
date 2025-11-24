@@ -35,26 +35,43 @@ module.exports = function(app, shopData) {
         const plainPassword = req.body.password;
         let sqlquery = "INSERT INTO userData (username, first_name, last_name, email, hashedPassword) VALUES (?, ?, ?, ?, ?)"
 
-        bcrypt.hash(plainPassword, saltRounds, function(err, hashedPassword) {
-            // Store hashed password in the database.
-            let newrecord =[req.body.username, req.body.first, req.body.last, req.body.email, hashedPassword];
-            // Execute SQL query
-            db.query(sqlquery, newrecord, (err, result) => {
-                if (err) {
-                    return next(err);
-                }
-                else {
-                    const message = `
-                    <h1>Registration Successful</h1>
-                    <p>Hello ${req.body.first} ${req.body.last}, you are now registered!</p>
-                    <p>We will send an email to you at ${req.body.email}.</p>
-                    <p>Your password is: ${req.body.password}</p>
-                    <p>Your hashed password is: ${hashedPassword}</p>
-                    <p><a href="/">Return to home</a></p>`;
-                    res.send(message);                                                                              
-                }
+        //Check if username or email alread exists
+        let checkQuery = "SELECT * FROM userData WHERE username = ? OR email = ?";
+        db.query(checkQuery, [req.body.username,req.body.email], (err, result) => {
+            if (err) return next(err);
+
+            if (result.length > 0) {
+                // User already exists
+                return res.send(`
+                    <h1>Registration Failed</h1>
+                    <p>The username or email is alread registered. Please choose another.</p>
+                    <p><a href="/register">Return to registration</a></p>
+                    `);
+            }
+
+            // If not proceed with hashing and inserting
+            bcrypt.hash(plainPassword, saltRounds, function(err, hashedPassword) {
+                // Store hashed password in the database.
+                let newrecord =[req.body.username, req.body.first, req.body.last, req.body.email, hashedPassword];
+                // Execute SQL query
+                db.query(sqlquery, newrecord, (err, result) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    else {
+                        const message = `
+                        <h1>Registration Successful</h1>
+                        <p>Hello ${req.body.first} ${req.body.last}, you are now registered!</p>
+                        <p>We will send an email to you at ${req.body.email}.</p>
+                        <p>Your password is: ${req.body.password}</p>
+                        <p>Your hashed password is: ${hashedPassword}</p>
+                        <p><a href="/">Return to home</a></p>`;
+                        res.send(message);                                                                              
+                    }
+                });
             });
         });
 
+        
     });
 }
