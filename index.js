@@ -41,6 +41,8 @@ global.db = db;
 
 // Requires the main.js file inside the routes folder passing in the Express app and data as arguments.  All the routes will go in this file
 require("./routes/main")(app, shopData);
+require("./routes/users")(app, shopData);
+require("./routes/books")(app, shopData);
 
 // Start the web app listening
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
