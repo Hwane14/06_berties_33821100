@@ -6,6 +6,16 @@
   </head>
   <body>
     <h1>Search <%=shopName%></h1>
+
+    <!-- Error messages go here -->
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+      <ul class="error-list">
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
     <form action="/search-result" method="GET">
       <p>What book do you want?</p>
       <input id="search-box" type="text" name="keyword" value="Default">

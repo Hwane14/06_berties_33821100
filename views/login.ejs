@@ -6,6 +6,16 @@
   </head>
   <body>
     <h1>Login to <%= shopName %></h1>
+
+    <!-- Error messages go here -->
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+      <ul class="error-list">
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
     <form method="POST" action="/users/loggedin">
       <p>Username: <input id="username" type="text" name="username" placeholder="Enter your username" required /></p>
       <p>Password: <input id="password" type="password" name="password" placeholder="Enter your password" required /></p>

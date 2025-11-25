@@ -5,11 +5,15 @@ var bodyParser= require ('body-parser');
 var mysql = require('mysql2');
 require('dotenv').config();
 var session = require('express-session');
+const expressSanitizer = require('express-sanitizer');
 
 // Create the express application object
 const app = express()
 const port = 8000
 app.use(bodyParser.urlencoded({ extended: true }))
+
+// Create an input sanitizer
+app.use(expressSanitizer());
 
 // Set up css
 app.use(express.static(__dirname + '/public'));
@@ -40,7 +44,7 @@ var shopData = {shopName: "Bertie's Books"}
 
 // Define the database connection pool
 const db = mysql.createPool({
-    host: 'localhost',
+    host: process.env.BB_HOST,
     user: process.env.BB_USER,
     password: process.env.BB_PASSWORD,
     database: process.env.BB_DATABASE,

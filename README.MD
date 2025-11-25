@@ -59,7 +59,7 @@ Sensitive credentials like database access are managed using the `dotenv` module
 
 ---
 
-### 🔍 Audit
+### Audit
 
 Login attempts are recorded in a `loginAttempts` table to support auditing and security monitoring. Each attempt logs:
 
@@ -70,7 +70,7 @@ Login attempts are recorded in a `loginAttempts` table to support auditing and s
 
 This is implemented in the `/users/loggedin` route, where each login attempt—successful or failed—is inserted into the database. A `/users/audit` route displays these attempts in a table view.
 
-## 🔒 Access Control Overview
+## Access Control Overview
 
 This application uses **Express sessions** to restrict access to certain routes.  
 The middleware `redirectLogin` ensures that only authenticated users (those with an active `req.session.userId`) can access protected pages.
@@ -104,6 +104,108 @@ The middleware `redirectLogin` ensures that only authenticated users (those with
 - **Public routes** are safe for all visitors (browsing, searching, registering, logging in).  
 - **Restricted routes** involve sensitive data (user list, audit logs) or database modifications (adding books). These require authentication.  
 - Access control is enforced via the `redirectLogin` middleware, which redirects unauthenticated users to `/users/login`.
+
+# Validation Overview
+
+This project uses **express-validator** to enforce server-side validation rules on user input.  
+Validation is applied selectively depending on whether a route accepts user-submitted data or simply renders a view.
+
+---
+
+## ✅ Routes with Validation
+
+### `/registered` (POST)
+- **Fields validated:** `first`, `last`, `email`, `username`, `password`
+- **Rules:**
+  - First/Last name: must be alphabetic and 2–30 characters long
+  - Email: must be a valid email format
+  - Username: 3–20 characters
+  - Password: at least 8 characters, must contain a number and an uppercase letter
+- **Reasoning:** Registration writes new user records to the database. Strong validation prevents invalid data, enforces security requirements, and ensures consistency.
+
+---
+
+### `/users/loggedin` (POST)
+- **Fields validated:** `username`, `password`
+- **Rules:**
+  - Username: trimmed, checked for length
+  - Password: required (not empty)
+- **Reasoning:** Login compares credentials against stored data. Validation ensures the query is safe and avoids empty submissions.
+
+---
+
+### `/search-result` (GET)
+- **Field validated:** `keyword` (query string)
+- **Rules:**
+  - Must be 1–50 characters
+  - Trimmed and escaped
+- **Reasoning:** Search queries come directly from user input. Validation prevents SQL injection and ensures meaningful results.
+
+---
+
+### `/bookadded` (POST)
+- **Fields validated:** `name`, `price`
+- **Rules:**
+  - Name: required, reasonable length
+  - Price: must be numeric
+- **Reasoning:** Adding books modifies the database. Validation ensures only valid book names and numeric prices are stored.
+
+---
+
+## 🚫 Routes without Validation
+
+### Informational and view-rendering routes
+- `/` (home), `/about`, `/search` (form page)
+- `/users/list`, `/users/login` (form page), `/users/audit`, `/users/logout`
+- `/register` (form page)
+- `/books/list`, `/books/bargainbooks`
+
+**Reasoning:**  
+These routes only render static views or query the database without taking direct user input. Validation is not required because no unsafe or malformed data can be submitted.
+
+---
+
+# Input Sanitization Overview
+
+This project uses **express-sanitizer** to clean user inputs before they are processed or stored.  
+Sanitization is applied selectively depending on whether a route accepts user-submitted data or simply renders a view.
+
+---
+
+## ✅ main.js
+
+### `/search-result` (GET)
+- **Sanitization applied:** `req.sanitize(req.query.keyword)`
+- **Reasoning:** The search keyword comes directly from user input. Sanitizing prevents malicious payloads (e.g., `<script>` tags) and ensures safe SQL queries and output rendering.
+- **Other routes (`/`, `/about`, `/search`):** No sanitization needed because they only render static views and do not process user input.
+
+---
+
+## ✅ users.js
+
+### `/users/loggedin` (POST)
+- **Sanitization applied:** `req.sanitize(username.trim())`, `req.sanitize(password)`
+- **Reasoning:** Username and password are user inputs. Sanitization ensures unsafe characters are removed before querying the database or comparing with stored hashes.
+
+### `/registered` (POST)
+- **Sanitization applied:** `req.sanitize(req.body.first)`, `req.sanitize(req.body.last)`, `req.sanitize(req.body.email)`, `req.sanitize(req.body.username)`, `req.sanitize(req.body.password)`
+- **Reasoning:** Registration form fields are all user-supplied. Sanitization prevents injection or XSS when storing values in the database or echoing them back in confirmation messages.
+
+### Other routes (`/users/list`, `/users/login`, `/users/audit`, `/users/logout`, `/register`)
+- **No sanitization needed:** These routes either render views or query the database without processing direct user input.
+
+---
+
+## ✅ books.js
+
+### `/bookadded` (POST)
+- **Sanitization applied:** `req.sanitize(req.body.name)`, `req.sanitize(req.body.price)`
+- **Reasoning:** Book name and price come from a form. Sanitization ensures malicious characters are stripped before inserting into the database or displaying in the success message.
+
+### Other routes (`/books/list`, `/books/addbook`, `/books/bargainbooks`)
+- **No sanitization needed:** These routes only render views or query the database without handling direct user input.
+
+---
 
 ## How to Install and Run Locally
 

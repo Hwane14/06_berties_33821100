@@ -10,6 +10,15 @@
         <h1><%= shopName %>: Add book</h1>
     </header>
 
+    <!-- Error messages go here -->
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+      <ul class="error-list">
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
     <main>
         <form action="/bookadded" method="POST">
             <label for="name">Book Name:</label>
