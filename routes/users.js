@@ -129,16 +129,25 @@ module.exports = function(app, shopData) {
     app.post('/registered',
         [
             check('first')
-            .isLength({ min: 2, max: 30 }).withMessage('First name must be between 2 and 30 characters')
-            .isAlpha().withMessage('First name must contain only letters'),
+            .trim()
+            .isLength({ min: 2, max: 30 })
+            .withMessage('First name must be between 2 and 30 characters')
+            .matches(/^[A-Za-z\s'-]+$/).withMessage('First name may contain letters, spaces, hyphens, or apostrophes'),
 
             check('last')
-            .isLength({ min: 2, max: 30 }).withMessage('Last name must be between 2 and 30 characters')
-            .isAlpha().withMessage('Last name must contain only letters'),
+            .trim()
+            .isLength({ min: 2, max: 30 })
+            .withMessage('Last name must be between 2 and 30 characters')
+            .matches(/^[A-Za-z\s'-]+$/).withMessage('First name may contain letters, spaces, hyphens, or apostrophes'),
 
-            check('email').isEmail().withMessage('Please enter a valid email address'),
+            check('email')
+            .trim()
+            .isEmail()
+            .withMessage('Please enter a valid email address'),
 
-            check('username').isLength({ min: 3, max: 20 }).withMessage('Username must be 3-20 characters long'),
+            check('username')
+            .trim()
+            .isLength({ min: 3, max: 20 }).withMessage('Username must be 3-20 characters long'),
 
             check('password')
             .isLength({ min: 8}).withMessage('Password must be at least 8 characters long')

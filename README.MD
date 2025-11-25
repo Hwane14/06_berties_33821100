@@ -49,6 +49,7 @@ Sensitive credentials like database access are managed using the `dotenv` module
 - Installed with `npm install dotenv`
 - Created a `.env` file containing:
 ```env
+  BB_HOST='localhost'
   BB_USER='berties_books_app'
   BB_PASSWORD='qwertyuiop'
   BB_DATABASE='berties_books'
@@ -117,7 +118,7 @@ Validation is applied selectively depending on whether a route accepts user-subm
 ### `/registered` (POST)
 - **Fields validated:** `first`, `last`, `email`, `username`, `password`
 - **Rules:**
-  - First/Last name: must be alphabetic and 2–30 characters long
+  - First/Last name: must be alphabetic (including hyphens, apostophes, and spaces) and 2–30 characters long
   - Email: must be a valid email format
   - Username: 3–20 characters
   - Password: at least 8 characters, must contain a number and an uppercase letter
