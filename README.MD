@@ -70,6 +70,41 @@ Login attempts are recorded in a `loginAttempts` table to support auditing and s
 
 This is implemented in the `/users/loggedin` route, where each login attempt—successful or failed—is inserted into the database. A `/users/audit` route displays these attempts in a table view.
 
+## 🔒 Access Control Overview
+
+This application uses **Express sessions** to restrict access to certain routes.  
+The middleware `redirectLogin` ensures that only authenticated users (those with an active `req.session.userId`) can access protected pages.
+
+---
+
+### ✅ Public Routes (no login required)
+- `/` → Home page  
+- `/about` → About page  
+- `/search` → Book search form  
+- `/search-result` → Search results  
+- `/register` → Registration form  
+- `/registered` → Registration submission  
+- `/users/login` → Login page  
+- `/users/loggedin` → Login submission  
+- `/books/list` → View all books  
+- `/books/bargainbooks` → View bargain books  
+
+---
+
+### 🔒 Restricted Routes (login required)
+- `/users/list` → View all registered users  
+- `/users/audit` → View login attempt history  
+- `/users/logout` → Logout (only available if logged in)  
+- `/books/addbook` → Add new book form  
+- `/bookadded` → Add new book submission  
+
+---
+
+### Notes
+- **Public routes** are safe for all visitors (browsing, searching, registering, logging in).  
+- **Restricted routes** involve sensitive data (user list, audit logs) or database modifications (adding books). These require authentication.  
+- Access control is enforced via the `redirectLogin` middleware, which redirects unauthenticated users to `/users/login`.
+
 ## How to Install and Run Locally
 
 ### 1. Clone the Repository

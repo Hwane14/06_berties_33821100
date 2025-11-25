@@ -1,7 +1,14 @@
 const bcrypt = require('bcrypt');
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId) {
+        res.redirect('./login') // redirect to the login page
+    } else {
+        next(); // move to the next middlware function
+    }
+}
 module.exports = function(app, shopData) {
     // Route to list users
-    app.get('/users/list', function(req, res, next) {
+    app.get('/users/list', redirectLogin, function(req, res, next) {
         let sqlquery = "SELECT * FROM userData";
 
         // Execute SQL query
@@ -50,6 +57,9 @@ module.exports = function(app, shopData) {
                 const match = await bcrypt.compare(password, user.hashedPassword);
 
                 if (match) {
+                    // Save user session here, when login is successful
+                    req.session.userId = req.body.username;
+
                     // Log successful attempt
                     db.query("INSERT INTO loginAttempts (username, success, reason) VALUES (?, ?, ?)",
                     [cleanUsername, true, "Login successful"]);
@@ -75,7 +85,7 @@ module.exports = function(app, shopData) {
         });
     });
     // Route to display login attempts
-    app.get('/users/audit', function(req, res, next) {
+    app.get('/users/audit', redirectLogin, function(req, res, next) {
         let sqlquery = "SELECT * FROM loginAttempts ORDER BY attemptTime DESC";
 
         //Execute SQL query
@@ -86,5 +96,14 @@ module.exports = function(app, shopData) {
                 shopData: shopData
             });
         });
-    })
+    });
+    // Route to logout
+    app.get('/users/logout', redirectLogin, (req, res) => {
+        req.session.destroy(err => {
+            if (err) {
+                return res.redirect('/');
+            }
+            res.send('You are now logged out. <a href=' + '/' + '>Home</a>');
+        });
+    });
 }

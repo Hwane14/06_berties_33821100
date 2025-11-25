@@ -1,3 +1,10 @@
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId) {
+        res.redirect('/users/login') // redirect to the login page
+    } else {
+        next(); // move to the next middlware function
+    }
+}
 module.exports = function(app, shopData) {
     // Route to render list.ejs
     app.get('/books/list', function(req, res, next) {
@@ -15,11 +22,11 @@ module.exports = function(app, shopData) {
         })
     });
     // Route to render addbook.ejs
-    app.get('/books/addbook', function(req, res) {
+    app.get('/books/addbook', redirectLogin, function(req, res) {
         res.render('addbook.ejs', shopData);
     });
     // Route to handle form submission for adding a new book to the database
-    app.post('/bookadded', function(req, res, next) {
+    app.post('/bookadded', redirectLogin, function(req, res, next) {
         // Saving data in database
         let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)";
 
