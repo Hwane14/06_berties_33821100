@@ -208,6 +208,39 @@ Sanitization is applied selectively depending on whether a route accepts user-su
 
 ---
 
+# Books API
+
+This API provides access to the `books` table with optional filtering and sorting.
+
+## Endpoint
+`GET/api/books`
+
+
+## Query Parameters
+- `search` – filter books by name (partial match).  
+  Example: `/api/books?search=world`
+
+- `minprice` – minimum price filter.  
+- `max_price` – maximum price filter.  
+  Example: `/api/books?minprice=5&max_price=10`
+
+- `sort` – sort results by field.  
+  - `name` → sort alphabetically by book name  
+  - `price` → sort numerically by price  
+  Example: `/api/books?sort=price`
+
+## Behavior
+- Returns all books if no parameters are provided.  
+- Multiple filters can be combined (search + price range + sort).  
+- Results are returned as JSON.
+
+## Example Requests
+- `/api/books` → all books  
+- `/api/books?search=universe` → books with "universe" in name  
+- `/api/books?minprice=5&max_price=15&sort=name` → books priced £5–£15 sorted by name
+
+---
+
 ## Testing
 
 Formal test cases for the `/weather` route are documented in 

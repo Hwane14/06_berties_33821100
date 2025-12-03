@@ -59,6 +59,7 @@ require("./routes/main")(app, shopData);
 require("./routes/users")(app, shopData);
 require("./routes/books")(app, shopData);
 require("./routes/weather")(app, shopData);
+require("./routes/api")(app, shopData);
 
 // Start the web app listening
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
