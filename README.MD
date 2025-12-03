@@ -27,6 +27,8 @@
 | `/users/list`          | Lists users who have registered        |
 | `/users/login`         | Login page                             |
 | `/users/audit`         | Displays full audit history            |
+| `/weather`             | Displays weather search box            |
+| `/api/books`           | Displays books using filter            |
 
 ---
 
