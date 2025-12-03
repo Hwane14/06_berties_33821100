@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+<body>
+    <header>
+        <h1><%= shopName %>: Weather Checker</h1>
+    </header>
+    <main>
+        <form action="/weather" method="POST">
+        <input type="text" name="city" placeholder="Enter city name">
+        <button type="submit">Get Weather</button>
+        </form>
+
+        <% if (weather) { %>
+            <div class="weather-card">
+                <h2>Weather for <%= weather.name %></h2>
+                <p><strong>Temperature:</strong> <%= weather.main.temp %> °C</p>
+                <p><strong>Condition:</strong> <%= weather.weather[0].description %></p>
+                <p><strong>Humidity:</strong> <%= weather.main.humidity %> %</p>
+                <p><strong>Pressure:</strong> <%= weather.main.pressure %> hPa</p>
+                <p><strong>Wind Speed:</strong> <%= weather.wind.speed %> m/s</p>
+                <p><strong>Wind Direction:</strong> <%= weather.wind.deg %>°</p>
+            </div>
+        <% } %>
+
+        <% if (error) { %>
+            <p class="failure"><%= error %></p>
+        <% } %>
+    </main>
+    <p><a href="/">Return to home</a></p>
+</body>
+</html>

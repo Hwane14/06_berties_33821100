@@ -69,3 +69,50 @@ th {
     color: red;
     font-weight: bold;
 }
+
+/* Weather card styling */
+.weather-card {
+  background-color: #f9f9f9;
+  border: 2px solid cadetblue;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  max-width: 500px;
+}
+
+.weather-card h2 {
+  font-size: 24px;
+  color: darkcyan;
+  margin-bottom: 10px;
+}
+
+.weather-card p {
+  font-size: 16px;
+  color: #333;
+  margin: 5px 0;
+}
+
+form {
+  margin-top: 20px;
+}
+
+form input[type="text"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 8px 12px;
+  font-size: 16px;
+  background-color: cadetblue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: darkcyan;
+}

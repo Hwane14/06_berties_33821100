@@ -30,7 +30,7 @@ module.exports = function(app, shopData) {
     app.post('/bookadded', redirectLogin,
         [
             check('name').isLength({ min: 1, max: 40}).withMessage('Please enter a valid book name'),
-            check('price').isInt().withMessage('Please enter a valid price')
+            check('price').isFloat({ min: 0 }).withMessage('Please enter a valid price')
         ],
         function(req, res, next) {
             const errors = validationResult(req);

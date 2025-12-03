@@ -208,6 +208,20 @@ Sanitization is applied selectively depending on whether a route accepts user-su
 
 ---
 
+## Testing
+
+Formal test cases for the `/weather` route are documented in 
+[docs/weather_test_cases.md](./docs/weather_test_cases.md).
+
+These cover scenarios such as:
+- Valid city input
+- Non-existent city names
+- Empty input validation
+- Invalid API key
+- Network failure
+
+All results are logged with expected vs actual outcomes and pass/fail status.
+
 ## How to Install and Run Locally
 
 ### 1. Clone the Repository
