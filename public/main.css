@@ -92,18 +92,42 @@ th {
   margin: 5px 0;
 }
 
+/* Global form defaults */
 form {
   margin-top: 20px;
 }
 
-form input[type="text"] {
-  padding: 8px;
-  font-size: 16px;
+form input {
+  padding: 6px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 form button {
+  padding: 6px 10px;
+  font-size: 14px;
+  background-color: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #ddd;
+}
+
+/* Weather form overrides */
+.weather-form input[type="text"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 250px; /* wider input box */
+}
+
+.weather-form button {
   padding: 8px 12px;
   font-size: 16px;
   background-color: cadetblue;
@@ -113,6 +137,6 @@ form button {
   cursor: pointer;
 }
 
-form button:hover {
+.weather-form button:hover {
   background-color: darkcyan;
 }
